@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Corner - STEM Dorm</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="sections.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body.theme-study {
+            background: #0a0014;
+            color: #ff00ff;
+            font-family: 'Courier New', monospace;
+            background-image: 
+                linear-gradient(0deg, rgba(10, 0, 20, 0.9) 0%,
+                rgba(38, 0, 72, 0.8) 100%);
+        }
+
+        .section-header {
+            border: 2px solid #00ffff;
+            background: rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 20px #ff00ff;
+        }
+
+        .showcase-card {
+            background: rgba(20, 0, 40, 0.8);
+            border: 1px solid #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .time-badge {
+            background: #ff00ff;
+            color: #000;
+            text-shadow: 0 0 5px #00ffff;
+        }
+
+        .study-error {
+            background: rgba(20, 0, 40, 0.9);
+            color: #00ffff;
+            border: 1px solid #ff00ff;
+        }
+
+        .brain-capacity {
+            border: 1px solid #ff00ff;
+            background: rgba(20, 0, 40, 0.9);
+        }
+
+        .brain-level {
+            background: linear-gradient(to top, #ff00ff, #00ffff);
+        }
+
+        .equation-generator {
+            background: rgba(20, 0, 40, 0.9);
+            color: #00ffff;
+            border: 1px solid #ff00ff;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+        }
+
+        .glitch-text {
+            color: #00ffff;
+            text-shadow: 
+                2px 2px #ff00ff,
+                -2px -2px #0099ff;
+        }
+
+        .binary-rain {
+            color: #00ffff;
+            opacity: 0.15;
+        }
+
+        /* New animation for headers */
+        .section-header h1 {
+            animation: neonPulse 2s infinite;
+        }
+
+        @keyframes neonPulse {
+            0%, 100% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff; }
+            50% { text-shadow: 0 0 15px #00ffff, 0 0 25px #00ffff, 0 0 35px #00ffff; }
+        }
+
+        .glitch-header { {
+            position: relative;;
+            animation: studyGlitch 1s infinite;
+        }   font-family: 'Courier New', monospace;
+            position: relative;
+        @keyframes studyGlitch {
+            2% { transform: translate(2px,0) skew(2deg); }
+            4% { transform: translate(-2px,0) skew(-2deg); }
+            50% { transform: translate(0,0) skew(0deg); }
+        }   content: '';
+            position: fixed;
+        .showcase-card {
+            position: relative;
+            overflow: hidden;
+        }   height: 100%;
+            background: 
+        .showcase-card::before {45deg, #ff00ff0d 25%, transparent 25%),
+            content: '';radient(-45deg, #00ffff0d 25%, transparent 25%);
+            position: absolute;x 4px;
+            top: 0;: -1;
+            left: 0;n: bgScroll 20s linear infinite;
+            width: 100%;
+            height: 2px;
+            background: #00ff00;
+            animation: scanline 2s linear infinite;
+            opacity: 0.5;gba(0, 255, 255, 0.1);
+            box-shadow: 0 0 20px #0ff;
+            padding: 20px;
+            margin: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 0%,
+                rgba(0, 255, 255, 0.1) 50%,
+                transparent 100%
+            );
+            animation: headerGlow 3s linear infinite;
+        }
+
+        .showcase-card {
+            background: rgba(0, 0, 30, 0.8);
+            border: 1px solid #0ff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .showcase-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+        }
+
+        .media-info h3 {
+            color: #ff00ff;
+            text-shadow: 2px 2px 4px rgba(255, 0, 255, 0.5);
+        }
+
+        .time-badge {
+            background: #ff00ff;
+            color: #000;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes headerGlow {
+            0% { transform: rotate(0deg) translateX(-100%); }
+            100% { transform: rotate(0deg) translateX(100%); }
+        }
+
+        @keyframes bgScroll {
+            0% { background-position: 0 0; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .study-timeline {
+            border-left: 2px solid #0ff;
+            margin-left: 20px;
+            padding-left: 20px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(0, 30, 60, 0.8);
+            border: 1px solid #0ff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -27px;
+            top: 15px;
+            width: 10px;
+            height: 10px;
+            background: #0ff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #0ff;
+        }
+
+        .glitch-header {
+            position: relative;
+            animation: studyGlitch 1s infinite;
+        }
+
+        @keyframes studyGlitch {
+            2% { transform: translate(2px,0) skew(2deg); }
+            4% { transform: translate(-2px,0) skew(-2deg); }
+            50% { transform: translate(0,0) skew(0deg); }
+        }
+
+        .showcase-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .showcase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #00ff00;
+            animation: scanline 2s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(1000%); }
+        }
+
+        .time-badge {
+            animation: timeGlitch 4s infinite;
+            text-shadow: 2px 2px #ff0080;
+        }
+
+        @keyframes timeGlitch {
+            0% { opacity: 1; }
+            2% { opacity: 0.8; transform: translate(-2px, 0); }
+            4% { opacity: 1; transform: translate(2px, 0); }
+            6% { opacity: 0.9; transform: translate(0, 0); }
+        }
+
+        .media-info h3 {
+            position: relative;
+        }
+
+        .media-info h3::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 2px;
+            text-shadow: -1px 0 #00ff00;
+            top: 0;
+            color: transparent;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(32px, 9999px, 15px, 0); }
+            20% { clip: rect(51px, 9999px, 69px, 0); }
+            40% { clip: rect(94px, 9999px, 44px, 0); }
+            60% { clip: rect(5px, 9999px, 36px, 0); }
+            80% { clip: rect(82px, 9999px, 70px, 0); }
+            100% { clip: rect(86px, 9999px, 73px, 0); }
+        }
+
+        .study-error {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #111;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .brain-capacity {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            width: 30px;
+            height: 100px;
+            border: 1px solid #0f0;
+            background: #111;
+        }
+
+        .brain-level {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: #0f0;
+            transition: height 0.5s;
+        }
+
+        .study-status {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #111;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .binary-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            color: #0f0;
+            font-family: monospace;
+            font-size: 14px;
+            opacity: 0.2;
+        }
+
+        .equation-generator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #111;
+            color: #0f0;
+            padding: 10px;
+            font-family: monospace;
+            border-radius: 5px;
+        }
+
+        .progress-meter {
+            position: fixed;
+            left: 50%;
+            bottom: 20px;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 20px;
+            background: #111;
+            border: 1px solid #0f0;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: #0f0;
+            position: relative;
+            transition: width 0.5s;
+        }
+
+        .progress-bar::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            animation: progress-glitch 1s infinite;
+        }
+
+        @keyframes progress-glitch {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+    </style>
+</head>
+<body class="theme-study">
+    <nav class="main-nav">
+        <div class="logo">
+            <a href="index.html">
+                <i class="fas fa-building"></i>
+                <span>STEM DORM</span>
+            </a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i>Home</a>
+            <a href="main.html" class="nav-item"><i class="fas fa-th"></i>Overview</a>
+            <a href="football-life.html" class="nav-item"><i class="fas fa-futbol"></i>Football</a>
+            <a href="night-tales.html" class="nav-item"><i class="fas fa-moon"></i>Night Tales</a>
+            <a href="study-corner.html" class="nav-item"><i class="fas fa-book"></i>Study</a>
+           
+        </div>
+        <button class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+    <div class="section-header">
+        <h1 class="glitch-header"><i class="fas fa-book"></i> Study Corner</h1>
+        <p class="glitch-header">Where Knowledge Never Sleeps</p>
+    </div>
+
+    <div class="study-error" id="studyError"></div>
+    <div class="study-status" id="studyStatus"></div>
+    <div class="brain-capacity">
+        <div class="brain-level"></div>
+    </div>
+
+    <div class="binary-rain" id="binaryRain"></div>
+    <div class="equation-generator" id="equationGen">Loading equations...</div>
+    <div class="progress-meter">
+        <div class="progress-bar" id="studyProgress"></div>
+    </div>
+    <div class="section-content">
+        <div class="media-gallery">
+            <div class="gallery-grid">
+                <div class="media-item" data-type="video">
+                    <video id="footballVideo1" controls>
+                        <source src="vid/ch.mp4" type="video/mp4">
+                        <div class="time-overlay">2:62 AM</div>
+                        <div class="media-info">
+                            <h3>Chemsitry with Amooora</h3>
+                    </video>
+
+    <script src="nav-config.js"></script>
+    <script src="navigation.js"></script>
+    <script>
+        // Add glitch effect to study times
+        document.querySelectorAll('.time-badge').forEach(badge => {
+            badge.setAttribute('data-time', badge.textContent);
+            setInterval(() => {
+                if (Math.random() < 0.1) {
+                    badge.textContent = Math.floor(Math.random() * 12) + ':' + 
+                                      Math.floor(Math.random() * 60).toString().padStart(2, '0') + 
+                                      (Math.random() > 0.5 ? ' AM' : ' PM');
+                    setTimeout(() => {
+                        badge.textContent = badge.getAttribute('data-time');
+                    }, 100);
+                }
+            }, 3000);
+        });
+
+        // Add glitch effect to subject titles
+        document.querySelectorAll('.media-info h3').forEach(title => {
+            title.setAttribute('data-text', title.textContent);
+        });
+
+        // Random study card glitch effect
+        setInterval(() => {
+            const cards = document.querySelectorAll('.showcase-card');
+            const randomCard = cards[Math.floor(Math.random() * cards.length)];
+            randomCard.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
+            setTimeout(() => {
+                randomCard.style.transform = 'none';
+            }, 100);
+        }, 5000);
+
+        // Funny study error messages
+        const studyErrors = [
+            "ERROR: Brain capacity exceeded",
+            "WARNING: Coffee levels insufficient for theorem comprehension",
+            "ALERT: Mathematical proof causing stack overflow",
+            "ERROR: Forgot everything learned in last 5 minutes",
+            "WARNING: Textbook appears to be written in ancient hieroglyphics",
+            "FATAL ERROR: Brain.exe has stopped working",
+            "LOADING: Attempting to understand quantum mechanics... FAILED",
+            "ERROR: Differential equations causing temporal paradox",
+            "WARNING: Complex numbers becoming imaginary friends",
+            "SYSTEM ERROR: Forgot how to count to 10"
+        ];
+
+        // Study status messages
+        const studyStatus = [
+            "Processing chapter 1... Loading since 1999",
+            "Brain capacity: 404 bytes remaining",
+            "Converting coffee to knowledge: ERROR",
+            "Downloading motivation.exe... Connection timed out",
+            "Attempting to understand calculus... Task failed successfully",
+            "Searching for missing brain cells...",
+            "Loading weekend plans... OVERRIDE: Study mode activated",
+            "ERROR: Please insert more coffee to continue"
+        ];
+
+        // Show random errors
+        setInterval(() => {
+            const error = studyErrors[Math.floor(Math.random() * studyErrors.length)];
+            const errorDiv = document.getElementById('studyError');
+            errorDiv.textContent = error;
+            errorDiv.style.opacity = 1;
+            setTimeout(() => errorDiv.style.opacity = 0, 3000);
+        }, 4000);
+
+        // Show study status
+        setInterval(() => {
+            const status = studyStatus[Math.floor(Math.random() * studyStatus.length)];
+            const statusDiv = document.getElementById('studyStatus');
+            statusDiv.textContent = status;
+            statusDiv.style.opacity = 1;
+            setTimeout(() => statusDiv.style.opacity = 0, 2000);
+        }, 5000);
+
+        // Update brain capacity
+        setInterval(() => {
+            const brain = document.querySelector('.brain-level');
+            const newLevel = Math.max(5, Math.random() * 100);
+            brain.style.height = newLevel + '%';
+            brain.style.background = newLevel < 20 ? '#ff0000' : 
+                                   newLevel < 50 ? '#ff8800' : '#0f0';
+        }, 3000);
+
+        // Replace study times with funny ones
+        document.querySelectorAll('.time').forEach(time => {
+            const funnyTimes = [ // Add neon text effect
+                "BRAIN.EXE CRASHED", document.querySelectorAll('.media-info h3').forEach(title => {
+                "TOO MUCH MATH",            title.innerHTML = title.textContent.split('').map(char => 
+                `<span class="neon-letter">${char}</span>`
+            ).join('');
+        });
+
+        // Add video synchronization
+        const video1 = document.getElementById('video1');
+        const video2 = document.getElementById('video2');
+
+        video1.addEventListener('play', () => {
+            video2.play();
+        });
+
+        video1.addEventListener('pause', () => {
+            video2.pause();
+        });
+
+        video1.addEventListener('seeked', () => {
+            video2.currentTime = video1.currentTime;
+        });
+
+        // Add glitch effect when videos sync
+        function addGlitchEffect(video) {
+            video.style.transform = 'scale(1.02) skew(2deg)';
+            setTimeout(() => {
+                video.style.transform = 'none';
+            }, 200);
+        }
+
+        video2.addEventListener('play', () => {
+            addGlitchEffect(video1);
+            addGlitchEffect(video2);
+        });
+
+        // Enhanced video synchronization
+        const video1 = document.getElementById('video1');
+        const video2 = document.getElementById('video2');
+        let activeVideo = null;
+
+        function syncVideos(source, target) {
+            target.currentTime = source.currentTime;
+            if (source.paused) {
+                target.pause();
+            } else {
+                target.play();
+            }
+        }
+
+        video1.addEventListener('play', () => {
+            activeVideo = video1;
+            video2.play();
+            addGlitchEffect(video2);
+        });
+
+        video2.addEventListener('play', () => {
+            activeVideo = video2;
+            video1.play();
+            addGlitchEffect(video1);
+        });
+
+        video1.addEventListener('pause', () => {
+            if (activeVideo === video1) {
+                video2.pause();
+            }
+        });
+
+        video2.addEventListener('pause', () => {
+            if (activeVideo === video2) {
+                video1.pause();
+            }
+        });
+
+        video1.addEventListener('timeupdate', () => {
+            if (activeVideo === video1) {
+                video2.currentTime = video1.currentTime;
+            }
+        });
+
+        video2.addEventListener('timeupdate', () => {
+            if (activeVideo === video2) {
+                video1.currentTime = video2.currentTime;
+            }
+        });
+
+        function addGlitchEffect(video) {
+            video.style.transform = 'scale(1.02) skew(2deg)';
+            video.style.filter = 'hue-rotate(90deg)';
+            setTimeout(() => {
+                video.style.transform = 'none';
+                video.style.filter = 'none';
+            }, 200);
+        }
+
+        // ...rest of existing script...
+    </script>
+</body>
+</html>

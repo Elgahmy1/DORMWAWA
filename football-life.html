@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Life - STEM Dorm</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="sections.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .glitch-text {
+            position: relative;
+            animation: glitch 1s infinite;
+        }
+
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00ff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -2px 0 #00ff00;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch {
+            2%, 64% { transform: translate(2px,0) skew(0deg); }
+            4%, 60% { transform: translate(-2px,0) skew(0deg); }
+            62% { transform: translate(0,0) skew(5deg); }
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(32px, 9999px, 15px, 0); }
+            5% { clip: rect(27px, 9999px, 88px, 0); }
+            10% { clip: rect(53px, 9999px, 43px, 0); }
+            15% { clip: rect(62px, 9999px, 70px, 0); }
+            20% { clip: rect(51px, 9999px, 69px, 0); }
+            25% { clip: rect(7px, 9999px, 43px, 0); }
+            30% { clip: rect(76px, 9999px, 91px, 0); }
+            35% { clip: rect(20px, 9999px, 78px, 0); }
+            40% { clip: rect(94px, 9999px, 44px, 0); }
+            45% { clip: rect(86px, 9999px, 100px, 0); }
+            50% { clip: rect(35px, 9999px, 15px, 0); }
+            55% { clip: rect(56px, 9999px, 35px, 0); }
+            60% { clip: rect(5px, 9999px, 36px, 0); }
+            65% { clip: rect(82px, 9999px, 70px, 0); }
+            70% { clip: rect(49px, 9999px, 13px, 0); }
+            75% { clip: rect(47px, 9999px, 29px, 0); }
+            80% { clip: rect(94px, 9999px, 55px, 0); }
+            85% { clip: rect(82px, 9999px, 49px, 0); }
+            90% { clip: rect(67px, 9999px, 69px, 0); }
+            95% { clip: rect(2px, 9999px, 98px, 0); }
+            100% { clip: rect(86px, 9999px, 73px, 0); }
+        }
+
+        .stats-grid {
+            position: relative;
+        }
+
+        .stats-grid::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 255, 0, 0.1);
+            pointer-events: none;
+            animation: scanline 6s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #0f0;
+            animation: glitch-line 2s linear infinite;
+        }
+
+        @keyframes glitch-line {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .funny-stat {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .funny-stat:hover::after {
+            content: attr(data-joke);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: #0f0;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            white-space: nowrap;
+        }
+
+        .football-error {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #111;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .ball-spin {
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .glitch-score {
+            font-family: monospace;
+            color: #0f0;
+            text-shadow: 2px 2px #ff0080;
+            animation: scoreGlitch 1s infinite;
+        }
+
+        @keyframes scoreGlitch {
+            2% { transform: translate(2px, 0); color: #ff0080; }
+            4% { transform: translate(-2px, 0); color: #0f0; }
+            6% { transform: translate(0, 0); }
+        }
+
+        /* New Matrix Rain Effect */
+        .matrix-football {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            color: #00ff00;
+        }
+
+        /* Broken Screen Effect */
+        .broken-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: 
+                repeating-linear-gradient(45deg, 
+                    transparent 0%, 
+                    rgba(0, 255, 0, 0.02) 1%, 
+                    transparent 2%);
+            z-index: 1;
+        }
+
+        /* Score Glitch Animation */
+        @keyframes scoreDisruption {
+            0% { transform: translate(0); }
+            25% { transform: translate(-5px, 3px) skew(15deg); }
+            50% { transform: translate(5px, -3px) skew(-15deg); }
+            75% { transform: translate(-3px, 5px) skew(5deg); }
+            100% { transform: translate(0); }
+        }
+
+        .stat-number {
+            animation: scoreDisruption 0.5s infinite;
+            text-shadow: 2px 2px #ff0000, -2px -2px #00ff00;
+        }
+
+        /* Broken Image Effect */
+        .media-item img {
+            filter: url('#broken');
+            animation: imageGlitch 3s infinite;
+        }
+
+        @keyframes imageGlitch {
+            0% { filter: none; }
+            92% { filter: none; }
+            93% { filter: hue-rotate(90deg) saturate(150%); }
+            94% { filter: none; }
+            95% { filter: brightness(200%); }
+            96% { filter: none; }
+            97% { filter: contrast(200%); }
+            98% { filter: none; }
+        }
+
+        /* Bad Reception Effect */
+        .video-static::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-radial-gradient(
+                    circle at 50% 50%,
+                    rgba(0, 0, 0, 0.2),
+                    rgba(0, 0, 0, 0.2) 1px,
+                    transparent 1px,
+                    transparent 2px
+                );
+            animation: static 0.5s steps(3) infinite;
+            pointer-events: none;
+        }
+
+        @keyframes static {
+            0% { transform: translate(0); }
+            100% { transform: translate(1px, 1px); }
+        }
+
+        @keyframes scrappyFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-298px) rotate(90deg); }
+            50% { transform: translateY(88px) rotate(-45deg); }
+            75% { transform: translateY(-742px) rotate(25deg); }
+        }
+
+        .media-item {
+            position: relative;
+            transition: filter 0.3s ease;
+        }
+
+        .media-item:hover {
+            animation: scrappyFloat 0.6s ease-in-out infinite;
+            filter: brightness(1.1) contrast(1.1);
+        }
+
+        .media-item img {
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .media-item:hover img {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="theme-football">
+    <nav class="main-nav">
+        <div class="logo">
+            <a href="index.html">
+                <i class="fas fa-building"></i>
+                <span>STEM DORM</span>
+            </a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i>Home</a>
+            <a href="main.html" class="nav-item"><i class="fas fa-th"></i>Overview</a>
+            
+            <a href="football-life.html" class="nav-item"><i class="fas fa-futbol"></i>Football</a>
+            <a href="night-tales.html" class="nav-item"><i class="fas fa-moon"></i>Night Tales</a>
+            <a href="study-corner.html" class="nav-item"><i class="fas fa-book"></i>Study</a>
+            
+        </div>
+        <button class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <div class="broken-screen"></div>
+    <canvas class="matrix-football" id="matrixCanvas"></canvas>
+
+    <div class="section-header football-header">
+        <h1 class="glitch-text" data-text="Football Life"><i class="fas fa-futbol ball-spin"></i> Football.exe</h1>
+        <p class="glitch-text" data-text="Where STEM Meets Sports">Error 404: Football Skills Not Found</p>
+    </div>
+
+    <div class="football-error" id="footballError"></div>
+
+    <div class="section-content">
+        <div class="media-gallery">
+            <div class="gallery-grid">
+                <div class="media-item" data-type="video">
+                    <video id="footballVideo1" controls>
+                        <source src="vid/1.mp4" type="video/mp4">
+                    </video>
+                    <div class="media-caption">elm7wr vs el7olafa2</div>
+                </div>
+                <div class="media-item" data-type="video">
+                    <video id="footballVideo2" controls>
+                        <source src="vid/2.mp4" type="video/mp4">
+                    </video>
+                    <div class="media-caption">ثقة المحور</div>
+                </div>
+                <div class="media-item" data-type="image">
+                    <img src="vid/ca.jpg" alt="Team Photo">
+                    <div class="media-caption">Elm7war's Captain</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="football-stats">
+            <h2><i class="fas fa-chart-line"></i> Team Statistics.exe</h2>
+            <div class="stats-grid">
+                <div class="stat-card matches funny-stat" data-joke="Most of these were against ourselves">
+                    <i class="fas fa-trophy"></i>
+                    <h3>Matches Won*</h3>
+                    <span class="stat-number glitch-score">404</span>
+                </div>
+                <div class="stat-card goals funny-stat" data-joke="Including that one time we kicked a watermelon">
+                    <i class="fas fa-futbol"></i>
+                    <h3>Goals Scored?</h3>
+                    <span class="stat-number glitch-score">∞</span>
+                </div>
+                <div class="stat-card tournaments funny-stat" data-joke="We're still trying to figure out the rules">
+                    <i class="fas fa-medal"></i>
+                    <h3>Tournaments Survived</h3>
+                    <span class="stat-number glitch-score">42</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="match-schedule">
+            <h2><i class="fas fa-calendar"></i> Upcoming Matches</h2>
+            <div class="schedule-grid">
+                <div class="match-card">
+                    <div class="match-date">SAT 15 JAN</div>
+                    <div class="teams">
+                        <span>Elm7wr </span>
+                        <span class="vs">VS</span>
+                        <span>El7olafa2</span>
+                    </div>
+                    <div class="match-time">8:00 PM</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="nav-config.js"></script>
+    <script src="navigation.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Add glitch effect to stats
+        document.querySelectorAll('.stat-number').forEach(stat => {
+            setInterval(() => {
+                const originalText = stat.getAttribute('data-value');
+                if (Math.random() < 0.1) {
+                    stat.textContent = Math.floor(Math.random() * 100);
+                    setTimeout(() => {
+                        stat.textContent = originalText;
+                    }, 100);
+                }
+            }, 2000);
+        });
+
+        // Add glitch effect to match cards
+        document.querySelectorAll('.match-card').forEach(card => {
+            card.addEventListener('mouseover', () => {
+                card.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
+                setTimeout(() => {
+                    card.style.transform = 'none';
+                }, 100);
+            });
+        });
+
+        const funnyErrors = [
+            "ERROR: Applied quantum tunneling to ball",
+            "WARNING: Player calculating trajectory mid-run",
+            "ALERT: Accidentally solved Fermat's Last Theorem during match",
+            "ERROR: Ball defying laws of physics",
+            "WARNING: Players stuck in probability field",
+            "ALERT: Discussing thermodynamics during penalty",
+            "ERROR: Students applying Newton's laws to scoring",
+            "WARNING: Relativistic effects observed in sprint",
+            "CRITICAL: Schrodinger's Goal - ball both in and out"
+        ];
+
+        // Add funny soccer stats
+        const funnyStats = {
+            "goals_scored": "√-1",
+            "matches_won": "Loading...",
+            "physics_violations": "Too many",
+            "quantum_goals": "Yes/No",
+            "relativistic_sprints": "C-1 m/s"
+        };
+
+        setInterval(() => {
+            const error = funnyErrors[Math.floor(Math.random() * funnyErrors.length)];
+            const errorDiv = document.getElementById('footballError');
+            errorDiv.textContent = error;
+            errorDiv.style.opacity = 1;
+            setTimeout(() => errorDiv.style.opacity = 0, 3000);
+        }, 5000);
+
+        // Add random score glitches
+        document.querySelectorAll('.stat-number').forEach(stat => {
+            setInterval(() => {
+                if (Math.random() < 0.1) {
+                    const funnyScores = ['404', '∞', '42', 'NaN', 'undefined', 'NULL'];
+                    const originalText = stat.textContent;
+                    stat.textContent = funnyScores[Math.floor(Math.random() * funnyScores.length)];
+                    setTimeout(() => {
+                        stat.textContent = originalText;
+                    }, 200);
+                }
+            }, 3000);
+        });
+
+        // Matrix rain effect with football characters
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const footballChars = '⚽️🥅⚽️goooal123';
+        const drops = [];
+        const fontSize = 16;
+        const columns = canvas.width/fontSize;
+
+        for(let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+
+            for(let i = 0; i < drops.length; i++) {
+                const text = footballChars[Math.floor(Math.random() * footballChars.length)];
+                ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+                if(drops[i]*fontSize > canvas.height && Math.random() > 0.975)
+                    drops[i] = 0;
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 33);
+
+        // Add video static effect
+        document.querySelectorAll('video').forEach(video => {
+            video.parentElement.classList.add('video-static');
+        });
+
+        // More aggressive score glitching
+        document.querySelectorAll('.stat-number').forEach(stat => {
+            setInterval(() => {
+                if(Math.random() < 0.3) {
+                    stat.style.transform = `translate(${Math.random()*10-5}px, ${Math.random()*10-5}px) skew(${Math.random()*20-10}deg)`;
+                    setTimeout(() => {
+                        stat.style.transform = 'none';
+                    }, 100);
+                }
+            }, 1000);
+        });
+
+        // Add video synchronization
+        const footballVideo1 = document.getElementById('footballVideo1');
+        const footballVideo2 = document.getElementById('footballVideo2');
+        let activeFootballVideo = null;
+
+        function syncOtherVideo(source, target) {
+            if (!target.playing) {
+                target.currentTime = source.currentTime;
+                target.play().catch(e => console.log("Video play failed:", e));
+            }
+        }
+
+        footballVideo1.addEventListener('play', () => {
+            activeFootballVideo = footballVideo1;
+            syncOtherVideo(footballVideo1, footballVideo2);
+            addFootballGlitch(footballVideo2);
+        });
+
+        footballVideo2.addEventListener('play', () => {
+            activeFootballVideo = footballVideo2;
+            syncOtherVideo(footballVideo2, footballVideo1);
+            addFootballGlitch(footballVideo1);
+        });
+
+        footballVideo1.addEventListener('pause', () => {
+            if (activeFootballVideo === footballVideo1) {
+                footballVideo2.pause();
+            }
+        });
+
+        footballVideo2.addEventListener('pause', () => {
+            if (activeFootballVideo === footballVideo2) {
+                footballVideo1.pause();
+            }
+        });
+
+        function addFootballGlitch(video) {
+            video.style.transform = 'scale(1.05) rotate(1deg)';
+            video.style.filter = 'saturate(150%) contrast(120%)';
+            setTimeout(() => {
+                video.style.transform = 'none';
+                video.style.filter = 'none';
+            }, 300);
+        }
+    </script>
+
+    <!-- Add SVG filter for broken image effect -->
+    <svg style="display:none">
+        <filter id="broken">
+            <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="1" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="20" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+    </svg>
+</body>
+</html>

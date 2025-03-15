@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Night Tales - STEM Dorm</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="sections.css">
+    <link rel="stylesheet" href="night-theme.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* CRT Screen Effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            z-index: 1000;
+            pointer-events: none;
+            animation: flicker 0.15s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.9; }
+            100% { opacity: 1; }
+        }
+
+        /* Night Mode Glitch */
+        .night-hero {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .night-hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 255, 0, 0.05);
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .terminal-text {
+            font-family: 'Courier New', monospace;
+            color: #0f0;
+            text-shadow: 0 0 5px #0f0;
+            animation: terminalBlink 1s infinite;
+        }
+
+        @keyframes terminalBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .time-overlay {
+            animation: timeGlitch 2s infinite;
+        }
+
+        @keyframes timeGlitch {
+            0% { transform: skew(0deg); }
+            2% { transform: skew(10deg); }
+            4% { transform: skew(0deg); }
+        }
+
+        .night-media-card {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .night-media-card:hover {
+            animation: floatUpDown 0.5s ease-in-out infinite;
+        }
+
+        @keyframes floatUpDown {
+            0%, 100% {
+                transform: translateY(2);
+            }
+            50% {
+                transform: translateY(-250px);
+            }
+        }
+
+        .night-media-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 2px;
+            background: #0f0;
+            animation: glitchLine 2s infinite;
+        }
+
+        @keyframes glitchLine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .coffee-meter {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            width: 30px;
+            height: 100px;
+            border: 1px solid #0f0;
+            background: #111;
+        }
+
+        .coffee-level {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: #0f0;
+            transition: height 0.5s;
+        }
+
+        .night-error {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #111;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .sanity-meter {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            width: 30px;
+            height: 100px;
+            border: 1px solid #f00;
+            background: #111;
+        }
+
+        .sanity-level {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: #f00;
+            transition: height 0.5s;
+        }
+
+        .status-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #111;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .status {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #00ff00;
+            z-index: 1000;
+        }
+
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .volume-slider {
+            width: 60px;
+            height: 3px;
+            appearance: none;
+            background: #00ff00;
+            outline: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="theme-night">
+    <nav class="main-nav">
+        <div class="logo">
+            <a href="index.html">
+                <i class="fas fa-building"></i>
+                <span>STEM DORM</span>
+            </a>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i>Home</a>
+            <a href="main.html" class="nav-item"><i class="fas fa-th"></i>Overview</a>
+           
+            <a href="football-life.html" class="nav-item"><i class="fas fa-futbol"></i>Football</a>
+            <a href="night-tales.html" class="nav-item"><i class="fas fa-moon"></i>Night Tales</a>
+            <a href="study-corner.html" class="nav-item"><i class="fas fa-book"></i>Study</a>
+        
+        </div>
+         <div class="status">
+        <span>[SYS.STATUS: ONLINE]</span>
+        <span id="time"></span>
+        <div class="audio-controls">
+            <button id="toggleMusic" style="background: none; border: 1px solid #00ff00; color: #00ff00; cursor: pointer;">
+                <i class="fas fa-play"></i>
+            </button>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="0.5">
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop autoplay preload="auto" muted>
+        <source src="vid/t.mp3" type="audio/mp3">
+    </audio>
+        <button class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <div class="night-hero">
+        <div class="stars"></div>
+        <div class="hero-content">
+            <h1 class="terminal-text"><i class="fas fa-moon"></i> > INSOMNIA.exe</h1>
+            <p class="terminal-text">> LOADING MIDNIGHT SNACKS...</p>
+            <p class="terminal-text blink">ERROR: BRAIN.exe not responding...</p>
+            <p class="terminal-text">CTRL + ALT + SLEEP not found</p>
+        </div>
+    </div>
+
+    <div class="night-error" id="nightError"></div>
+    <div class="status-message" id="statusMessage"></div>
+    <div class="sanity-meter">
+        <div class="sanity-level"></div>
+    </div>
+
+    <div class="coffee-meter">
+        <div class="coffee-level"></div>
+    </div>
+
+    <main class="night-content">
+        <section class="night-gallery">
+            <h2><i class="fas fa-photo-video"></i> Night Memories</h2>
+            <div class="media-showcase">
+                <div class="gallery-grid">
+                    <div class="night-media-card">
+                        <div class="media-item" data-type="image">
+                            <img src="vid/k.jpg" alt="tm t3b2t elkersh">
+                        </div>
+                        <div class="time-overlay">6 pm</div>
+                        <div class="media-info">
+                            <h3>تم نجاح الكرش بتعبئة</h3>
+                            
+                        </div>
+                    </div>
+
+                    <div class="night-media-card">
+                        <img src="vid/s.jpg" alt="AURA" class="night-img">
+                        <div class="time-overlay">35:02 AM</div>
+                        <div class="media-info">
+                            <h3>THEM</h3>
+                            <p>السحور Core</p>
+                        </div>
+                    </div>
+
+                    <div class="night-media-card">
+                        <img src="vid/3.jpg" alt="AURA" class="night-img">
+                        <div class="time-overlay">8:02 AM</div>
+                        <div class="media-info">
+                            <h3>تراويح core</h3>
+                            
+                        </div>
+                    </div>
+
+    </main>
+
+    <script src="nav-config.js"></script>
+    <script src="navigation.js"></script>
+    <script>
+        // Audio controls
+        const bgMusic = document.getElementById('bgMusic');
+        const toggleButton = document.getElementById('toggleMusic');
+        const volumeSlider = document.getElementById('volumeSlider');
+
+        // Initialize audio
+        bgMusic.loop = true;
+        bgMusic.volume = 0.5;
+        let lastVolume = 0.5;
+
+        // Function to start music
+        function startMusic() {
+            bgMusic.muted = false;
+            bgMusic.play()
+                .then(() => {
+                    toggleButton.innerHTML = '<i class="fas fa-pause"></i>';
+                    // Remove all event listeners once music starts
+                    document.removeEventListener('click', startMusic);
+                    document.removeEventListener('touchstart', startMusic);
+                    document.removeEventListener('keydown', startMusic);
+                })
+                .catch(console.error);
+        }
+
+        // Add multiple event listeners for different interactions
+        document.addEventListener('click', startMusic);
+        document.addEventListener('touchstart', startMusic);
+        document.addEventListener('keydown', startMusic);
+
+        // Volume control with mute functionality
+        volumeSlider.addEventListener('input', (e) => {
+            bgMusic.volume = e.target.value;
+            lastVolume = e.target.value;
+            bgMusic.muted = (e.target.value === "0");
+            toggleButton.innerHTML = bgMusic.muted ? 
+                '<i class="fas fa-volume-mute"></i>' : 
+                '<i class="fas fa-pause"></i>';
+        });
+
+        // Toggle button control with mute functionality
+        toggleButton.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                toggleButton.innerHTML = bgMusic.muted ? 
+                    '<i class="fas fa-volume-mute"></i>' : 
+                    '<i class="fas fa-pause"></i>';
+            } else {
+                bgMusic.muted = !bgMusic.muted;
+                if (bgMusic.muted) {
+                    lastVolume = bgMusic.volume;
+                    bgMusic.volume = 0;
+                    toggleButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                } else {
+                    bgMusic.volume = lastVolume;
+                    toggleButton.innerHTML = '<i class="fas fa-pause"></i>';
+                }
+            }
+        });
+
+        // Random glitch effect for media cards
+        document.querySelectorAll('.night-media-card').forEach(card => {
+            setInterval(() => {
+                if (Math.random() < 0.1) {
+                    card.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
+                    setTimeout(() => {
+                        card.style.transform = 'none';
+                    }, 100);
+                }
+            }, 3000);
+        });
+
+        // Time glitch effect
+        document.querySelectorAll('.time-overlay').forEach(time => {
+            setInterval(() => {
+                if (Math.random() < 0.2) {
+                    const originalTime = time.textContent;
+                    time.textContent = Math.floor(Math.random() * 12) + ':' + 
+                                     Math.floor(Math.random() * 60).toString().padStart(2, '0') + 
+                                     ' AM';
+                    setTimeout(() => {
+                        time.textContent = originalTime;
+                    }, 100);
+                }
+            }, 2000);
+        });
+
+        // Coffee meter animation
+        setInterval(() => {
+            const level = document.querySelector('.coffee-level');
+            level.style.height = Math.random() * 100 + '%';
+        }, 2000);
+
+        // Replace normal time displays with funny ones
+        document.querySelectorAll('.time-overlay').forEach(time => {
+            const funnyTimes = [
+                "TOO LATE",
+                "SLEEP?",
+                "WHY AM",
+                "HELP PLZ",
+                "∞ AM"
+            ];
+            setInterval(() => {
+                if(Math.random() < 0.1) {
+                    const original = time.textContent;
+                    time.textContent = funnyTimes[Math.floor(Math.random() * funnyTimes.length)];
+                    setTimeout(() => time.textContent = original, 1000);
+                }
+            }, 3000);
+        });
+
+        // Funny night error messages
+        const nightErrors = [
+            "ERROR 404: Sleep not found",
+            "WARNING: Reality beginning to glitch",
+            "ALERT: Coffee.exe needs to be reinstalled",
+            "ERROR: Brain running on emergency backup power",
+            "WARNING: Encountering temporal anomalies",
+            "FATAL ERROR: Sanity levels critically low",
+            "LOADING: Converting caffeine to code... FAILED",
+            "ERROR: Memory leak detected in frontal lobe",
+            "WARNING: Hallucination.dll has been loaded",
+            "SYSTEM ERROR: Too tired to compute basic math",
+            "ERROR: Student has become one with desk",
+            "WARNING: Gravity feels optional at 3 AM",
+            "ALERT: Dreaming in binary and derivatives",
+            "ERROR: Coffee has achieved sentience",
+            "WARNING: Student spotted solving problems in sleep",
+            "FATAL ERROR: Textbook begins to make sense",
+            "LOADING: Converting midnight snacks to knowledge",
+            "ERROR: Calculator displaying emoji responses",
+            "WARNING: Physics laws stop working after midnight",
+            "ALERT: Student achieves enlightenment (temporary)"
+        ];
+
+        
+
+        // Status messages
+        const statusMessages = [
+            "Calculating probability of passing tomorrow's exam...",
+            "Converting coffee to code efficiency: 404%",
+            "Consciousness level: Running on autopilot",
+            "Attempting to compile thoughts... Syntax error",
+            "Memory allocation failed: Brain too tired",
+            "Searching for motivation.exe... File not found",
+            "Loading tomorrow's regrets...",
+            "Initiating emergency nap protocol... DENIED",
+            "Student evolving into nocturnal being...",
+            "Attempting to bend laws of thermodynamics",
+            "Brain running on emergency chocolate reserves",
+            "Discovering new math theorems in sleep",
+            "Reality glitching: Textbook making sense",
+            "Writing lab report in interpretive dance",
+            "Discovering cold fusion in microwave",
+            "Communicating with past self through notes"
+        ];
+
+        
+
+        // Show random errors
+        setInterval(() => {
+            const error = nightErrors[Math.floor(Math.random() * nightErrors.length)];
+            const errorDiv = document.getElementById('nightError');
+            errorDiv.textContent = error;
+            errorDiv.style.opacity = 1;
+            setTimeout(() => errorDiv.style.opacity = 0, 3000);
+        }, 4000);
+
+        
+
+        // Show status messages
+        setInterval(() => {
+            const status = statusMessages[Math.floor(Math.random() * statusMessages.length)];
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.textContent = status;
+            statusDiv.style.opacity = 1;
+            setTimeout(() => statusDiv.style.opacity = 0, 2000);
+        }, 5000);
+
+        // Update sanity meter
+        setInterval(() => {
+            const sanity = document.querySelector('.sanity-level');
+            const newLevel = Math.max(5, Math.random() * 100);
+            sanity.style.height = newLevel + '%';
+            sanity.style.background = newLevel < 20 ? '#ff0000' : 
+                                    newLevel < 50 ? '#ff8800' : '#00ff00';
+        }, 3000);
+
+        // Replace timestamps with funny ones periodically
+        document.querySelectorAll('.time').forEach(time => {
+            const funnyTimes = [
+                "TIME.EXE CRASHED",
+                "WAY TOO LATE",
+                "¯\\_(ツ)_/¯ AM",
+                "COFFEE O'CLOCK",
+                "SLEEP? WHAT'S THAT?",
+                "404 HOURS PAST BEDTIME"
+            ];
+            
+            setInterval(() => {
+                if(Math.random() < 0.2) {
+                    const originalTime = time.textContent;
+                    time.textContent = funnyTimes[Math.floor(Math.random() * funnyTimes.length)];
+                    setTimeout(() => time.textContent = originalTime, 1000);
+                }
+            }, 3000);
+        });
+
+        // Add video synchronization
+        const nightVideo1 = document.getElementById('nightVideo1');
+        const nightVideo2 = document.getElementById('nightVideo2');
+        let activeNightVideo = null;
+
+        function syncNightVideos(source, target) {
+            target.currentTime = source.currentTime;
+            if (!source.paused) {
+                target.play();
+            }
+        }
+
+        nightVideo1.addEventListener('play', () => {
+            activeNightVideo = nightVideo1;
+            nightVideo2.play();
+            addGlitchEffect(nightVideo2);
+        });
+
+        nightVideo2.addEventListener('play', () => {
+            activeNightVideo = nightVideo2;
+            nightVideo1.play();
+            addGlitchEffect(nightVideo1);
+        });
+
+        nightVideo1.addEventListener('timeupdate', () => {
+            if (activeNightVideo === nightVideo1) {
+                syncNightVideos(nightVideo1, nightVideo2);
+            }
+        });
+
+        nightVideo2.addEventListener('timeupdate', () => {
+            if (activeNightVideo === nightVideo2) {
+                syncNightVideos(nightVideo2, nightVideo1);
+            }
+        });
+
+        function addGlitchEffect(video) {
+            video.style.transform = 'scale(1.02) skew(2deg)';
+            video.style.filter = 'hue-rotate(90deg)';
+            setTimeout(() => {
+                video.style.transform = 'none';
+                video.style.filter = 'none';
+            }, 200);
+        }
+    </script>
+</body>
+</html>

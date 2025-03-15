@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEM Dorm Life - Navigation Hub</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #00ff00;
+            font-family: monospace;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .glitch-container {
+            position: relative;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .glitch-text {
+            font-size: 2em;
+            letter-spacing: 2px;
+            animation: glitch 1s infinite;
+        }
+
+        @keyframes glitch {
+            2% { transform: translate(2px, 0); }
+            4% { transform: translate(-2px, 0); }
+            6% { transform: translate(0, 0); }
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .nav-item {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            text-decoration: none;
+            color: #00ff00;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background: #00ff00;
+            color: #000;
+            transform: scale(1.05);
+        }
+
+        .status {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #00ff00;
+        }
+
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .volume-slider {
+            width: 60px;
+            height: 3px;
+            appearance: none;
+            background: #00ff00;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .funny-error {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="glitch-container">
+        <h1 class="glitch-text">[STEM DORM 404: BRAIN NOT FOUND]</h1>
+        <p>/ / / Loading Coffee.exe... Error: More Coffee Needed / / /</p>
+    </div>
+
+    <div class="nav-grid">
+        <a href="football-life.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <h2>HOME BASE</h2>
+            <p>return to main terminal</p>
+        </a>
+
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-futbol"></i>
+            <h2>FOOTBALL SYS</h2>
+            <p>recreation module v2.0</p>
+        </a>
+
+        <a href="study-corner.html" class="nav-item">
+            <i class="fas fa-moon"></i>
+            <h2>NIGHT MODE</h2>
+            <p>after hours logs</p>
+        </a>
+
+        <a href="night-tales.html" class="nav-item">
+            <i class="fas fa-book"></i>
+            <h2>STUDY CORE</h2>
+            <p>knowledge acquisition unit</p>
+        </a>
+
+        <div class="funny-error" id="funnyError"></div>
+    </div>
+
+    <div class="status">
+        <span>[SYS.STATUS: ONLINE]</span>
+        <span id="time"></span>
+        <div class="audio-controls">
+            <button id="toggleMusic" style="background: none; border: 1px solid #00ff00; color: #00ff00; cursor: pointer;">
+                <i class="fas fa-play"></i>
+            </button>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="0.5">
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop autoplay preload="auto">
+        <source src="vid/t.mp3" type="audio/mp3">
+    </audio>
+    
+    <canvas class="matrix-rain" id="matrixRain"></canvas>
+
+    <script>
+        // Simple time display
+        setInterval(() => {
+            document.getElementById('time').textContent = 
+                ' [TIME: ' + new Date().toLocaleTimeString() + ']';
+        }, 1000);
+
+        // Random glitch effect
+        setInterval(() => {
+            const items = document.querySelectorAll('.nav-item');
+            const randomItem = items[Math.floor(Math.random() * items.length)];
+            randomItem.style.transform = 'translate(1px, 1px)';
+            setTimeout(() => {
+                randomItem.style.transform = 'none';
+            }, 100);
+        }, 3000);
+
+        // Funny error messages
+        const funnyErrors = [
+            "ERROR 418: I'm a teapot trying to compile physics",
+            "WARNING: Coffee levels critically low",
+            "FATAL ERROR: Brain.exe stopped working",
+            "LOADING: Converting caffeine to code...",
+            "ERROR: Accidentally solved wrong homework",
+            "WARNING: Quantum homework exists in multiple states"
+        ];
+
+        setInterval(() => {
+            const error = funnyErrors[Math.floor(Math.random() * funnyErrors.length)];
+            const errorDiv = document.getElementById('funnyError');
+            errorDiv.textContent = error;
+            errorDiv.style.opacity = 1;
+            setTimeout(() => errorDiv.style.opacity = 0, 3000);
+        }, 5000);
+
+        // Matrix rain effect
+        const canvas = document.getElementById('matrixRain');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const characters = 'STEM01';
+        const drops = [];
+        const fontSize = 14;
+        const columns = canvas.width/fontSize;
+
+        for(let x = 0; x < columns; x++) {
+            drops[x] = canvas.height/fontSize; // Initialize at bottom
+        }
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+
+            for(let i = 0; i < drops.length; i++) {
+                const text = characters[Math.floor(Math.random() * characters.length)];
+                ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+                if(drops[i]*fontSize < 0 && Math.random() > 0.975) {
+                    drops[i] = canvas.height/fontSize; // Reset to bottom
+                }
+                drops[i]--; // Move up instead of down
+            }
+        }
+
+        setInterval(draw, 33);
+
+        // Modified Audio controls
+        const bgMusic = document.getElementById('bgMusic');
+        const toggleButton = document.getElementById('toggleMusic');
+        const volumeSlider = document.getElementById('volumeSlider');
+
+        // Initialize audio with autoplay and loop
+        bgMusic.loop = true;
+        bgMusic.volume = 0.5;
+        
+        // Auto-start music function
+        function initAudio() {
+            bgMusic.play()
+                .then(() => {
+                    toggleButton.innerHTML = '<i class="fas fa-pause"></i>';
+                })
+                .catch(() => {
+                    console.log("Waiting for user interaction");
+                });
+        }
+
+        // Try to play immediately
+        initAudio();
+
+        // Also try to play on any user interaction
+        ['click', 'touchstart', 'keydown'].forEach(event => {
+            document.addEventListener(event, () => {
+                if (bgMusic.paused) {
+                    initAudio();
+                }
+            }, { once: true });
+        });
+
+        // Ensure music keeps playing when it ends
+        bgMusic.addEventListener('ended', () => {
+            bgMusic.currentTime = 0;
+            bgMusic.play();
+        });
+
+        // Volume control
+        volumeSlider.addEventListener('input', (e) => {
+            bgMusic.volume = e.target.value;
+        });
+
+        // Toggle button control
+        toggleButton.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                toggleButton.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                bgMusic.pause();
+                toggleButton.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        });
+    </script>
+</body>
+</html>
